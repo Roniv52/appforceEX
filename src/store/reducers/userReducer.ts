@@ -1,31 +1,7 @@
+import { user } from './../../models/user';
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadActions } from '@reduxjs/toolkit';
-
-interface user {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  location: {
-    street: {
-      number: string;
-      name: string;
-    };
-    city: string;
-    country: string;
-  };
-  email: string;
-  login: {
-    uuid: string;
-    username: string;
-    password: string;
-  };
-  picture: {
-    medium: string;
-  };
-}
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { getusers } from './../reducers/userAction';
 
 const initialState: Partial<user> = {};
 
@@ -34,8 +10,11 @@ const userSlice = createSlice({
   initialState,
 
   reducers: {
-    updateUser: (state, action: PayloadActions<user>) => {
+    updateUser: (state, action: PayloadAction<user>) => {
       state = action.payload;
+    },
+    getusers: (state, getusers: PayloadAction<user>) => {
+      state = getusers.payload;
     },
   },
 });
