@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from '../models/User';
+import { User } from '../models/user';
 import EditUser from './EditUser';
 import { Button, Flex, Group, Popover, Text } from '@mantine/core';
 import UserComp from './User';

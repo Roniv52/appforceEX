@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from '../models/User';
+import { User } from '../models/user';
 
 const getUsers: () => Promise<User[]> = async () => {
   const res = await axios.get('https://randomuser.me/api/?results=10');
