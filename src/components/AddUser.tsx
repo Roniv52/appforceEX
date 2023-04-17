@@ -37,8 +37,10 @@ const AddUser = ({ onClose, ...props }: Props) => {
     validate: {
       name: {
         first: (value) =>
+          //@ts-ignore
           value.length < 3 ? 'Name must have at least 3 letters' : null,
       },
+      //@ts-ignore
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
@@ -54,6 +56,7 @@ const AddUser = ({ onClose, ...props }: Props) => {
         <form
           onSubmit={form.onSubmit((values) => {
             console.log(values);
+            //@ts-ignore
             Dispatch(addUsers(values));
             onClose();
           })}

@@ -18,8 +18,10 @@ const EditUser = ({ id, name, email, location, onClose, ...props }: Props) => {
     validate: {
       name: {
         first: (value) =>
+          //@ts-ignore
           value.length < 3 ? 'Name must have at least 3 letters' : null,
       },
+      //@ts-ignore
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });

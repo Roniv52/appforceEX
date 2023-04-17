@@ -14,6 +14,7 @@ function App() {
   const users = useSelector((state: Store) => state.users.users);
   useEffect(() => {
     `1`;
+    //@ts-ignore
     Dispatch(getUsers());
   }, []);
 

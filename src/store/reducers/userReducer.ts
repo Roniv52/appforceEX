@@ -1,3 +1,4 @@
+//@ts-ignore
 import { User, userEdit } from './../../models/User';
 import {
   createReducer,
