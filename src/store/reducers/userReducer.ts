@@ -64,7 +64,11 @@ const reducer = createReducer<usersReducer>(initialState, (builder) => {
     .addCase(addUsers, (state, action) => {
       console.log(action.payload.user);
       let id = uuidv4();
-      if (!state.users.find((user) => user.email === action.payload.email)) {
+      let checkUser = state.users.find(
+        (user) => user.email === action.payload.user.email
+      );
+
+      if (checkUser) {
         alert('user email should be unique!');
         return { ...state };
       }
