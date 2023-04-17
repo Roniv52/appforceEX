@@ -1,20 +1,87 @@
-import { user } from './../../models/user';
-import { createSlice } from '@reduxjs/toolkit';
+import { User, userEdit } from './../../models/User';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getusers } from './../reducers/userAction';
+import getusers from './../../utils/getUsers';
 
-const initialState: Partial<user> = {};
+interface usersReducer {
+  users: User[];
+}
 
-const userSlice = createSlice({
-  name: 'user',
-  initialState,
+const initialState: usersReducer = {
+  users: [],
+};
 
-  reducers: {
-    updateUser: (state, action: PayloadAction<user>) => {
-      state = action.payload;
-    },
-    getusers: (state, getusers: PayloadAction<user>) => {
-      state = getusers.payload;
-    },
-  },
+export const getUsers = createAsyncThunk('users/getUsers', async () => {
+  const users = await getusers();
+  return {
+    users,
+  };
 });
+
+export const updateUsers = createAction(
+  'users/updateUsers',
+  (id: string, editable: userEdit) => {
+    console.log('aa');
+    return {
+      payload: {
+        id,
+        editable,
+      },
+    };
+  }
+);
+export const deleteUsers = createAction('users/deleteUsers', (id: string) => {
+  return {
+    payload: {
+      id,
+    },
+  };
+});
+
+const reducer = createReducer<usersReducer>(initialState, (builder) => {
+  builder
+    .addCase(getUsers.fulfilled, (state, action) => {
+      console.log(action.payload.users);
+
+      return {
+        users: [...action.payload.users],
+      };
+    })
+    .addCase(deleteUsers, (state, action) => {
+      const users = [
+        ...state.users.filter((user) => user.login.uuid !== action.payload.id),
+      ];
+
+      return {
+        ...state,
+        users: users,
+      };
+    })
+    .addCase(updateUsers, (state, action) => {
+      console.log('aaaaa');
+      let user = state.users.find(
+        (user) => user.login.uuid === action.payload.id
+      );
+
+      if (!user) return;
+
+      const updatedUser = {
+        ...user,
+        ...action.payload.editable,
+      };
+      const updatedUsers = [
+        ...state.users.filter((user) => user.login.uuid !== action.payload.id),
+        updatedUser,
+      ];
+      return {
+        ...state,
+        users: updatedUsers,
+      };
+    });
+});
+
+export default reducer;
