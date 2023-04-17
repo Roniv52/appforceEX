@@ -1,13 +1,13 @@
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from './store';
-import { User } from './components/User';
 import { useEffect } from 'react';
 import { getUsers } from './store/reducers';
 import { Button, Flex, Header } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import EditUser from './components/EditUser';
 import UserCard from './components/UserCard';
+import AddUser from './components/AddUser';
 
 function App() {
   const Dispatch = useDispatch();
@@ -18,11 +18,20 @@ function App() {
   }, []);
 
   useEffect(() => {}, [users]);
-
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <div className='App'>
       <h1>Apps Force Users</h1>
-      <Button>Add User +</Button>
+      <Button type='submit' onClick={open}>
+        Add User+
+      </Button>
+      {opened && (
+        <AddUser
+          opened={opened}
+          onClose={close}
+          overlayProps={{ opacity: 0.75 }}
+        />
+      )}
       <Flex
         direction={'row'}
         wrap={'wrap'}

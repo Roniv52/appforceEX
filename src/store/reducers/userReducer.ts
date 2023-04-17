@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import getusers from './../../utils/getUsers';
+import { v4 as uuidv4 } from 'uuid';
 
 interface usersReducer {
   users: User[];
@@ -34,6 +35,15 @@ export const updateUsers = createAction(
     };
   }
 );
+
+export const addUsers = createAction('users/addUsers', (user: User) => {
+  return {
+    payload: {
+      user,
+    },
+  };
+});
+
 export const deleteUsers = createAction('users/deleteUsers', (id: string) => {
   return {
     payload: {
@@ -49,6 +59,24 @@ const reducer = createReducer<usersReducer>(initialState, (builder) => {
 
       return {
         users: [...action.payload.users],
+      };
+    })
+    .addCase(addUsers, (state, action) => {
+      console.log(action.payload.user);
+      let id = uuidv4();
+      if (!state.users.find((user) => user.email === action.payload.email)) {
+        alert('user email should be unique!');
+        return { ...state };
+      }
+      return {
+        ...state,
+        users: [
+          ...state.users,
+          {
+            ...action.payload.user,
+            login: { ...action.payload.user.login, uuid: id },
+          },
+        ],
       };
     })
     .addCase(deleteUsers, (state, action) => {

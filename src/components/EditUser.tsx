@@ -15,6 +15,13 @@ const EditUser = ({ id, name, email, location, onClose, ...props }: Props) => {
       email: email,
       location: { ...location, street: { ...location?.street } },
     },
+    validate: {
+      name: {
+        first: (value) =>
+          value.length < 3 ? 'Name must have at least 3 letters' : null,
+      },
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
   });
   const Dispatch = useDispatch();
   return (
@@ -33,21 +40,40 @@ const EditUser = ({ id, name, email, location, onClose, ...props }: Props) => {
             onClose();
           })}
         >
-          <TextInput label='title:' {...form.getInputProps('name.title')} />
-          <TextInput label='first:' {...form.getInputProps('name.first')} />
-          <TextInput label='last:' {...form.getInputProps('name.last')} />
-          <TextInput label='email:' {...form.getInputProps('email')} />
           <TextInput
+            required
+            label='title:'
+            {...form.getInputProps('name.title')}
+          />
+          <TextInput
+            required
+            label='first:'
+            {...form.getInputProps('name.first')}
+          />
+          <TextInput
+            required
+            label='last:'
+            {...form.getInputProps('name.last')}
+          />
+          <TextInput required label='email:' {...form.getInputProps('email')} />
+          <TextInput
+            required
             label='country:'
             {...form.getInputProps('location.country')}
           />
 
-          <TextInput label='city:' {...form.getInputProps('location.city')} />
           <TextInput
+            required
+            label='city:'
+            {...form.getInputProps('location.city')}
+          />
+          <TextInput
+            required
             label='street:'
             {...form.getInputProps('location.street.name')}
           />
           <TextInput
+            required
             label='street number:'
             {...form.getInputProps('location.street.number')}
           />
