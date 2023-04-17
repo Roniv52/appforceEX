@@ -1,6 +1,5 @@
 import { Button, FileInput, Modal, ModalProps, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { User } from '../models/User';
 import { useForm } from '@mantine/form';
 import { addUsers } from '../store/reducers/userReducer';
 import { useDispatch } from 'react-redux';

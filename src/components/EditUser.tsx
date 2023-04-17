@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Modal, ModalProps, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { userEdit } from '../models/User';
+import { userEdit } from '../models/user';
 import { useForm } from '@mantine/form';
 import { useDispatch } from 'react-redux';
 import { updateUsers } from './../store/reducers';
